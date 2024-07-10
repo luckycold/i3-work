@@ -44,10 +44,6 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-# move tiling windows via drag & drop by left-clicking into the title bar,
-# or left-clicking anywhere into the window while holding the floating modifier.
-tiling_drag modifier titlebar
-
 # start a terminal
 bindsym $mod+Return exec alacritty
 
@@ -208,28 +204,61 @@ for_window [class="krunner"] floating enable, border none
 for_window [class="Kmix"] floating enable, border none
 for_window [class="Klipper"] floating enable, border none
 for_window [class="Plasmoidviewer"] floating enable, border none
-for_window [class="(?i)*nextcloud*"] floating disable
 for_window [class="plasmashell" window_type="notification"] floating enable, border none, move right 700px, move down 450px
 no_focus [class="plasmashell" window_type="notification"]
 
 for_window [title="Desktop @ QRect.*"] kill; floating enable; border none
 
 #Monitor Layout
-set $monitor_left "1"
-set $monitor_right"0"
+workspace 1 output HDMI-2
+workspace 2 output HDMI-1
+workspace 3 output HDMI-1
+workspace 4 output HDMI-1
+workspace 5 output HDMI-1
+workspace 6 output HDMI-1
+workspace 7 output HDMI-1
+workspace 8 output HDMI-1
+workspace 9 output HDMI-1
+workspace 10 output HDMI-1
 
 #Custom Shortcuts
 bindsym $mod+Ctrl+l exec i3lock
 bindsym $mod+x move workspace to output next
 bindsym Alt_L exec krunner
-bindsym $mod+t exec --no-startup-id ~/.config/i3/open_workspace4_and_teams.sh
+bindsym Ctrl+Shift+$mod+L exec dbus-send --type=method_call --dest=com.quexten.Goldwarden.autofill /com/quexten/Goldwarden com.quexten.Goldwarden.Autofill.autofill
+#bindsym $mod+t exec --no-startup-id ~/.config/i3/open_workspace4_and_teams.sh
 
 
 #Startup Apps
-exec i3-msg 'workspace 9; exec /home/lucky/.local/share/flatpak/app/com.discordapp.Discord/current/active/export/share/applications/com.discordapp.Discord.desktop'
+#exec i3-msg 'workspace 9; exec discord'
 exec --no-startup-id i3-msg 'workspace 8; exec virsh --connect qemu:///system start "win11" && virt-manager --connect qemu:///system --show-domain-console "win11"'
-exec i3-msg 'workspace 3; exec thunderbird'
-exec --no-startup-id i3-msg 'workspace 2; exec /home/lucky/AppImages/obsidian.appimage'
-exec i3-msg 'workspace 1; exec /usr/bin/brave-browser-stable'
-for_window [class="Brave-browser"] floating disable
-for_window [class="obsidian"] floating disable
+exec /home/lucky/.cargo/bin/i3-open-next-ws -e '/usr/bin/brave-browser-stable' 1
+exec /home/lucky/.cargo/bin/i3-open-next-ws -e 'discord' 9
+
+for_window [class="Brave-browser"] floating disable; border none;
+hide_edge_borders vertical
+
+#Numpad Movement
+# Switch with numpad
+bindsym $mod+Mod2+KP_1 workspace $ws1
+bindsym $mod+Mod2+KP_2 workspace $ws2
+bindsym $mod+Mod2+KP_3 workspace $ws3
+bindsym $mod+Mod2+KP_4 workspace $ws4
+bindsym $mod+Mod2+KP_5 workspace $ws5
+bindsym $mod+Mod2+KP_6 workspace $ws6
+bindsym $mod+Mod2+KP_7 workspace $ws7
+bindsym $mod+Mod2+KP_8 workspace $ws8
+bindsym $mod+Mod2+KP_9 workspace $ws9
+bindsym $mod+Mod2+KP_0 workspace $ws10
+
+# move with numpad
+bindsym $mod+Mod2+Shift+KP_End move container to workspace $ws1
+bindsym $mod+Mod2+Shift+KP_Down move container to workspace $ws2
+bindsym $mod+Mod2+Shift+KP_Next move container to workspace $ws3
+bindsym $mod+Mod2+Shift+KP_Left move container to workspace $ws4
+bindsym $mod+Mod2+Shift+KP_Begin move container to workspace $ws5
+bindsym $mod+Mod2+Shift+KP_Right move container to workspace $ws6
+bindsym $mod+Mod2+Shift+KP_Home move container to workspace $ws7
+bindsym $mod+Mod2+Shift+KP_Up move container to workspace $ws8
+bindsym $mod+Mod2+Shift+KP_Prior move container to workspace $ws9
+bindsym $mod+Mod2+Shift+KP_Insert move container to workspace $ws10
